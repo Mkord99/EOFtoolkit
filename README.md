@@ -134,15 +134,6 @@ p_values = eof.monte_carlo_test(n_trials=1000)
 - **Heat Content**: Analyze ocean heat content variability
 - **Upwelling Patterns**: Identify coastal upwelling modes
 
-## 📖 Documentation
-
-Full documentation is available at: [https://eoftoolkit.readthedocs.io](https://eoftoolkit.readthedocs.io)
-
-- [User Guide](https://eoftoolkit.readthedocs.io/en/latest/user_guide.html)
-- [API Reference](https://eoftoolkit.readthedocs.io/en/latest/api.html)
-- [Tutorials](https://eoftoolkit.readthedocs.io/en/latest/tutorials.html)
-- [Examples Gallery](https://eoftoolkit.readthedocs.io/en/latest/examples.html)
-
 ## 🔧 Dependencies
 
 ### Required
@@ -246,9 +237,8 @@ If you use EOFtoolkit in your research, please cite:
 
 ## 📞 Support
 
-- **Documentation**: [https://eoftoolkit.readthedocs.io](https://eoftoolkit.readthedocs.io)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/EOFtoolkit/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/EOFtoolkit/discussions)
+- **Issues**: [GitHub Issues](https://github.com/Mkord99/EOFtoolkit/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Mkord99/EOFtoolkit/discussions)
 - **Email**: mohammadkord99@gmail.com
 
 ## 📋 Changelog
