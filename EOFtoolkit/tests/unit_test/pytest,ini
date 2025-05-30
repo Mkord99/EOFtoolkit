@@ -1,0 +1,148 @@
+# pytest.ini
+[pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts = 
+    --verbose
+    --tb=short
+    --strict-markers
+    --color=yes
+    --cov=eoftoolkit
+    --cov-report=html
+    --cov-report=term-missing
+markers =
+    slow: marks tests as slow (deselect with '-m "not slow"')
+    integration: marks tests as integration tests
+    requires_data: marks tests that require external data files
+
+# conftest.py
+"""
+Pytest configuration and fixtures for EOFtoolkit tests
+"""
+
+import pytest
+import numpy as np
+import tempfile
+import shutil
+from pathlib import Path
+import sys
+
+# Add project directory to path
+project_dir = Path(__file__).resolve().parent
+sys.path.insert(0, str(project_dir))
+
+@pytest.fixture(scope="session")
+def test_data_dir():
+    """Create temporary directory for test data"""
+    temp_dir = tempfile.mkdtemp(prefix="eof_test_")
+    yield temp_dir
+    shutil.rmtree(temp_dir)
+
+@pytest.fixture
+def simple_matrix():
+    """Provide a simple test matrix"""
+    return np.array([
+        [1.0, 2.0, 3.0],
+        [2.0, 4.0, 6.0],
+        [3.0, 6.0, 9.0]
+    ])
+
+@pytest.fixture
+def random_matrix():
+    """Provide a random test matrix"""
+    np.random.seed(42)
+    return np.random.rand(10, 20)
+
+@pytest.fixture
+def test_netcdf_files(test_data_dir):
+    """Create test NetCDF files"""
+    from test_config import TestDataGenerator
+    
+    data_dir = Path(test_data_dir) / "data"
+    data_dir.mkdir(exist_ok=True)
+    
+    files = TestDataGenerator.create_test_netcdf_files(str(data_dir))
+    yield files
+
+@pytest.fixture
+def known_eof_matrix():
+    """Provide a matrix with known EOF patterns"""
+    from test_config import TestDataGenerator
+    
+    matrix, eofs, pcs = TestDataGenerator.create_test_matrix_with_known_eofs()
+    return matrix, eofs, pcs
+
+@pytest.fixture(autouse=True)
+def set_random_seed():
+    """Set random seed for reproducible tests"""
+    np.random.seed(42)
+
+# Custom markers
+pytest.mark.requires_netcdf = pytest.mark.skipif(
+    not _netcdf_available(),
+    reason="NetCDF4 not available"
+)
+
+def _netcdf_available():
+    """Check if netCDF4 is available"""
+    try:
+        import netCDF4
+        return True
+    except ImportError:
+        return False
+
+# Custom assertions
+def assert_eofs_orthogonal(eofs, tol=1e-10):
+    """Assert that EOFs are orthogonal"""
+    n_modes = eofs.shape[0]
+    gram_matrix = eofs @ eofs.T
+    
+    # Check orthogonality
+    for i in range(n_modes):
+        for j in range(n_modes):
+            if i == j:
+                assert abs(gram_matrix[i, j] - 1.0) < tol
+            else:
+                assert abs(gram_matrix[i, j]) < tol
+
+# Test coverage excludes
+pytest_cov_exclude = [
+    "*/migrations/*",
+    "*/tests/*",
+    "*/__pycache__/*"
+]
+
+# Example pytest command usage:
+"""
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_svd.py
+
+# Run specific test class
+pytest tests/test_svd.py::TestSVD
+
+# Run specific test method
+pytest tests/test_svd.py::TestSVD::test_perform_svd_basic
+
+# Run tests with coverage
+pytest --cov=eoftoolkit --cov-report=html
+
+# Run tests in parallel
+pytest -n auto
+
+# Run only fast tests
+pytest -m "not slow"
+
+# Run with verbose output
+pytest -v
+
+# Stop after first failure
+pytest -x
+
+# Drop into debugger on failure
+pytest --pdb
+"""
