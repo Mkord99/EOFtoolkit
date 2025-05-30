@@ -194,10 +194,6 @@ for i in range(min(10, len(eigenvalues))):
         print(f"EOF {i+1}: Not significant")
 ```
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
 ### Development Setup
 
 ```bash
@@ -210,29 +206,6 @@ pip install -e ".[dev]"
 
 ```bash
 pytest tests/
-```
-
-### Code Style
-
-We use `black` for code formatting and `flake8` for linting:
-
-```bash
-black eoftoolkit/
-flake8 eoftoolkit/
-```
-
-## 📄 Citation
-
-If you use EOFtoolkit in your research, please cite:
-
-```bibtex
-@software{eoftoolkit2025,
-  author = {Mohammad Kordgholiabad},
-  title = {EOFtoolkit: A Python Package for Empirical Orthogonal Function Analysis},
-  url = {https://github.com/yourusername/EOFtoolkit},
-  version = {0.0.1},
-  year = {2025}
-}
 ```
 
 ## 📞 Support
