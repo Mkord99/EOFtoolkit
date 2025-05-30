@@ -1,0 +1,23 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include pyproject.toml
+include MANIFEST.in
+
+# Include all Python files
+recursive-include eoftoolkit *.py
+
+# Include test files
+recursive-include tests *.py
+
+# Include documentation
+recursive-include docs *.md *.rst *.py
+
+# Exclude compiled Python files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .git*
+global-exclude .pytest_cache
