@@ -160,7 +160,7 @@ for i in range(min(10, len(eigenvalues))):
 ### Development Setup
 
 ```bash
-git clone https://github.com/yourusername/EOFtoolkit.git
+git clone https://github.com/Mkord99/EOFtoolkit.git
 cd EOFtoolkit
 pip install -e ".[dev]"
 ```
