@@ -79,43 +79,6 @@ eigenvalues = eof.eigenvalues()    # Eigenvalues
 explained_var = eof.explained_variance_ratio()
 ```
 
-### Rotated EOF (REOF)
-
-```python
-from eoftoolkit import REOF
-
-# Rotated EOF analysis
-reof = REOF(data, neofs=10)
-reof.solve(method='varimax')
-
-# Get rotated patterns
-rotated_patterns = reof.patterns()
-rotated_pcs = reof.pcs()
-```
-
-### Complex EOF (CEOF)
-
-```python
-from eoftoolkit import CEOF
-
-# Complex EOF for oscillatory patterns
-ceof = CEOF(data, tau=1)  # tau is the lag
-ceof.solve()
-
-# Access complex patterns
-amplitude = ceof.amplitude()
-phase = ceof.phase()
-```
-
-### Statistical Significance
-
-```python
-# North's rule of thumb for EOF significance
-significant_modes = eof.north_significance_test()
-
-# Monte Carlo significance testing
-p_values = eof.monte_carlo_test(n_trials=1000)
-```
 
 ## 🌍 Use Cases
 
